@@ -1,0 +1,4 @@
+mstrio-py==11.3.4.*
+pandas
+boto3==1.19.*
+sodapy==2.1.*

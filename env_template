@@ -1,0 +1,22 @@
+# Socrata aka City datahub
+CSR_DATASET=
+CSR_ENDPOINT=
+SO_KEY=
+SO_SECRET=
+SO_TOKEN=
+SO_WEB=
+
+# Socrata Dataset IDs
+EXP_DATASET=
+REV_DATASET=
+
+# AWS (finance-reports)
+AWS_ACCESS_KEY=
+AWS_SECRET_ACCESS_KEY=
+BUCKET_NAME=
+
+# Microstrategy
+BASE_URL=
+MSTRO_USERNAME=
+MSTRO_PASSWORD=
+PROJECT_ID=
