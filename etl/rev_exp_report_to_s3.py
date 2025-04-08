@@ -11,7 +11,7 @@ import logging
 
 import boto3
 from mstrio.api.reports import report_instance, get_prompted_instance
-from mstrio.project_objects.report import Report
+from mstrio.project_objects.report import Report, Prompt
 from mstrio.connection import Connection
 
 import utils
@@ -123,81 +123,67 @@ def expenses_prompts(fy, date, dept, prompts):
     date must be in the form of yyyy-mm-dd
     """
 
-    prompt_answers = {
-        "prompts": [
-            # Department
-            {"id": prompts[0]["id"], "type": "VALUE", "answers": dept},
-            # Fiscal Year
-            {
-                "id": prompts[1]["id"],
-                "type": "ELEMENTS",
-                "answers": [
-                    {"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}
-                ],
-            },
-            # Date
-            {
-                "id": prompts[2]["id"],
-                "type": "VALUE",
-                "answers": f"{date}T05:00:00.000+0000",
-            },
-            # Budget Fiscal Year
-            {
-                "id": prompts[3]["id"],
-                "type": "ELEMENTS",
-                "answers": [
-                    {"id": f"h{fy};{prompts[3]['source']['id']}", "name": f"{fy}"}
-                ],
-            },
-        ]
-    }
+    prompt_answers = [
+        # Department
+        Prompt(id=prompts[0]["id"], type="VALUE", answers=dept),
+        # Fiscal Year
+        Prompt(
+            id=prompts[1]["id"],
+            type="ELEMENTS",
+            answers=[{"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}],
+        ),
+        # Date
+        Prompt(
+            id=prompts[2]["id"],
+            type="VALUE",
+            answers=f"{date}T05:00:00.000+0000",
+        ),
+        # Budget Fiscal Year
+        Prompt(
+            id=prompts[3]["id"],
+            type="ELEMENTS",
+            answers=[{"id": f"h{fy};{prompts[3]['source']['id']}", "name": f"{fy}"}],
+        ),
+    ]
+
     return prompt_answers
 
 
 def revenue_prompts(fy, date, dept, prompts):
-    prompt_answers = {
-        "prompts": [
-            # Department
-            {"id": prompts[0]["id"], "type": "VALUE", "answers": dept},
-            # Fiscal Year
-            {
-                "id": prompts[1]["id"],
-                "type": "ELEMENTS",
-                "answers": [
-                    {"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}
-                ],
-            },
-            # Date
-            {
-                "id": prompts[2]["id"],
-                "type": "VALUE",
-                "answers": f"{date}T05:00:00.000+0000",
-            },
-            # Budget Fiscal Year
-            {
-                "id": prompts[4]["id"],
-                "type": "ELEMENTS",
-                "answers": [
-                    {"id": f"h{fy};{prompts[4]['source']['id']}", "name": f"{fy}"}
-                ],
-            },
-        ]
-    }
+    prompt_answers = [
+        # Department
+        Prompt(id=prompts[0]["id"], type="VALUE", answers=dept),
+        # Fiscal Year
+        Prompt(
+            id=prompts[1]["id"],
+            type="ELEMENTS",
+            answers=[
+                {"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}
+            ],
+        ),
+        # Date
+        Prompt(
+            id= prompts[2]["id"],
+            type="VALUE",
+            answers=f"{date}T05:00:00.000+0000",
+        ),
+        # Budget Fiscal Year
+        Prompt(
+            id=prompts[4]["id"],
+            type="ELEMENTS",
+            answers= [
+                {"id": f"h{fy};{prompts[4]['source']['id']}", "name": f"{fy}"}
+            ],
+        ),
+    ]
 
     return prompt_answers
 
 
 def get_report_data(prompt_answers, report_id, instance_id):
-    # Send answers
-    res = conn.put(
-        url=conn.base_url
-        + f"/api/reports/{report_id}/instances/{instance_id}/prompts/answers",
-        json=prompt_answers,
-    )
-
     # Download report results to dataframe
     report = Report(conn, id=report_id, instance_id=instance_id)
-    df = report.to_dataframe()
+    df = report.to_dataframe(prompt_answers=prompt_answers)
     return df
 
 
@@ -301,6 +287,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logger = utils.get_logger(__name__, level=logging.INFO,)
+    logger = utils.get_logger(
+        __name__,
+        level=logging.INFO,
+    )
 
     main(args)

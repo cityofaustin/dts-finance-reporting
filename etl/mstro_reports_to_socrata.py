@@ -30,6 +30,7 @@ SO_SECRET = os.getenv("SO_SECRET")
 EXP_DATASET = os.getenv("EXP_DATASET")
 REV_DATASET = os.getenv("REV_DATASET")
 
+
 def select_month(year, month):
     """
     Parameters
@@ -87,6 +88,7 @@ def get_csv_data(s3_client, filename, field_mapping):
 
     return mapped_data
 
+
 def get_fiscal_year(year, month):
     if month >= 10:
         fiscal_year = year + 1
@@ -118,7 +120,13 @@ def main(args):
         aws_access_key_id=AWS_ACCESS_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     )
-    soda = Socrata(SO_WEB, SO_TOKEN, username=SO_KEY, password=SO_SECRET, timeout=60 * 15, )
+    soda = Socrata(
+        SO_WEB,
+        SO_TOKEN,
+        username=SO_KEY,
+        password=SO_SECRET,
+        timeout=60 * 15,
+    )
 
     year, month = select_month(args.year, args.month)
     if args.replace:
@@ -215,7 +223,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logger = utils.get_logger(__name__, level=logging.INFO,)
+    logger = utils.get_logger(
+        __name__,
+        level=logging.INFO,
+    )
 
     main(args)
-
