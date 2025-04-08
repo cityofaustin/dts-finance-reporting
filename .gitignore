@@ -3,3 +3,4 @@
 env_file
 .env
 /.idea
+*.pyc
