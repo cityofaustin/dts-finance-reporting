@@ -1,4 +1,4 @@
-mstrio-py==11.4.3.*
+mstrio-py==11.5.3.*
 pandas==1.5.*
 numpy==1.26.*
 boto3==1.34.*
