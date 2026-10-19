@@ -4,17 +4,23 @@ from datetime import datetime
 from io import StringIO
 import os
 import logging
+import sys
 
 import boto3
 from sodapy import Socrata
 
-from config import EXPENSES_FIELD_MAPPING
-from config import EXPENSES_ID_COLUMN
-from config import EXPENSES_NUMERIC_COLS
-from config import REVENUE_FIELD_MAPPING
-from config import REVENUE_ID_COLUMN
-from config import REVENUE_NUMERIC_COLS
+from rev_exp_config import (
+    EXPENSES_FIELD_MAPPING,
+    EXPENSES_ID_COLUMN,
+    EXPENSES_NUMERIC_COLS,
+    REVENUE_FIELD_MAPPING,
+    REVENUE_ID_COLUMN,
+    REVENUE_NUMERIC_COLS,
+)
 
+# Get the parent directory path
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
 import utils
 
 # AWS Credentials
@@ -23,10 +29,10 @@ AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 BUCKET = os.getenv("BUCKET_NAME")
 
 # Socrata Secrets
-SO_WEB = os.getenv("SO_WEB")
-SO_TOKEN = os.getenv("SO_TOKEN")
-SO_KEY = os.getenv("SO_KEY")
-SO_SECRET = os.getenv("SO_SECRET")
+SOCRATA_ENDPOINT = os.getenv("SOCRATA_ENDPOINT")
+SOCRATA_APP_TOKEN = os.getenv("SOCRATA_APP_TOKEN")
+SOCRATA_KEY_ID = os.getenv("SOCRATA_KEY_ID")
+SOCRATA_KEY_SECRET = os.getenv("SOCRATA_KEY_SECRET")
 EXP_DATASET = os.getenv("EXP_DATASET")
 REV_DATASET = os.getenv("REV_DATASET")
 
@@ -121,11 +127,11 @@ def main(args):
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     )
     soda = Socrata(
-        SO_WEB,
-        SO_TOKEN,
-        username=SO_KEY,
-        password=SO_SECRET,
-        timeout=60 * 15,
+        SOCRATA_ENDPOINT,
+        SOCRATA_APP_TOKEN,
+        username=SOCRATA_KEY_ID,
+        password=SOCRATA_KEY_SECRET,
+        timeout=15,
     )
 
     year, month = select_month(args.year, args.month)

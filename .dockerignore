@@ -1,4 +1,11 @@
+# Ignoring everything
+*
 
-.DS_Store
-env_file
-.env
+# Only allow the specific files we need
+!etl/revenue_expenses/rev_exp_config.py
+!etl/revenue_expenses/rev_exp_report_to_s3.py
+!etl/revenue_expenses/rev_exp_reports_to_socrata.py
+!etl/config.py
+!etl/microstrategy_to_socrata.py
+!etl/utils.py
+!requirements.txt
