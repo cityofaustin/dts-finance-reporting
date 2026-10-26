@@ -2,11 +2,11 @@
 
 This repo stores python scripts that gathers financial reports from MicroStrategy and parses them to publish data to the City Datahub.
 
-## rev_exp_reports_to_socrata.py
+## microstrategy_to_socrata.py
 
 This ETL script is for running any non-prompted MicroStrategy report, applying transformations, then publishing it to the City Datahub AKA Socrata.
 
-**`rev_exp_reports_to_socrata.py` will replace all the data in Socrata every time you run it.** 
+**`microstrategy_to_socrata.py` will replace all the data in Socrata every time you run it.** 
 
 To run one report and update the data in Socrata:
 
