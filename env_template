@@ -1,22 +1,21 @@
-# Socrata aka City datahub
-CSR_DATASET=
-CSR_ENDPOINT=
-SO_KEY=
-SO_SECRET=
-SO_TOKEN=
-SO_WEB=
+# 1pass: Socrata Key ID, Secret, and Token
+SOCRATA_ENDPOINT=<endpoint>
+SOCRATA_KEY_ID=<apiKeyId>
+SOCRATA_KEY_SECRET=<apiKeySecret>
+SOCRATA_APP_TOKEN=<appToken>
 
-# Socrata Dataset IDs
-EXP_DATASET=
-REV_DATASET=
+# Revenue/Expenses socrata Dataset IDs
+EXP_DATASET=ixp8-cuh9
+REV_DATASET=n39a-qs5x
 
-# AWS (finance-reports)
-AWS_ACCESS_KEY=
-AWS_SECRET_ACCESS_KEY=
-BUCKET_NAME=
+# 1pass: Executive Dashboard: S3
+BUCKET_NAME=<Bucket>
+AWS_ACCESS_KEY=<AWS Access key>
+AWS_SECRET_ACCESS_KEY=<AWS Secret access key>
 
-# Microstrategy
-BASE_URL=
-MSTRO_USERNAME=
-MSTRO_PASSWORD=
-PROJECT_ID=
+# 1pass: Microstrategy API
+BASE_URL=<Base URL>
+PROJECT_ID=<Project ID>
+MSTRO_USERNAME=<Username>
+MSTRO_PASSWORD=<Password>
+

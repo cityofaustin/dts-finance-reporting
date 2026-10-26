@@ -8,12 +8,17 @@ from datetime import datetime
 from io import StringIO
 import os
 import logging
+import sys
 
 import boto3
 from mstrio.api.reports import report_instance, get_prompted_instance
-from mstrio.project_objects.report import Report, Prompt
+from mstrio.project_objects.report import Report
+from mstrio.project_objects.prompt import Prompt
 from mstrio.connection import Connection
 
+# Get the parent directory path
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
 import utils
 
 BASE_URL = os.getenv("BASE_URL")
@@ -125,22 +130,22 @@ def expenses_prompts(fy, date, dept, prompts):
 
     prompt_answers = [
         # Department
-        Prompt(id=prompts[0]["id"], type="VALUE", answers=dept),
+        Prompt(key=prompts[0]["key"], type="VALUE", answers=dept),
         # Fiscal Year
         Prompt(
-            id=prompts[1]["id"],
+            key=prompts[1]["key"],
             type="ELEMENTS",
             answers=[{"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}],
         ),
         # Date
         Prompt(
-            id=prompts[2]["id"],
+            key=prompts[2]["key"],
             type="VALUE",
             answers=f"{date}T05:00:00.000+0000",
         ),
         # Budget Fiscal Year
         Prompt(
-            id=prompts[3]["id"],
+            key=prompts[3]["key"],
             type="ELEMENTS",
             answers=[{"id": f"h{fy};{prompts[3]['source']['id']}", "name": f"{fy}"}],
         ),
@@ -157,13 +162,11 @@ def revenue_prompts(fy, date, dept, prompts):
         Prompt(
             id=prompts[1]["id"],
             type="ELEMENTS",
-            answers=[
-                {"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}
-            ],
+            answers=[{"id": f"h{fy};{prompts[1]['source']['id']}", "name": f"{fy}"}],
         ),
         # Date
         Prompt(
-            id= prompts[2]["id"],
+            id=prompts[2]["id"],
             type="VALUE",
             answers=f"{date}T05:00:00.000+0000",
         ),
@@ -171,9 +174,7 @@ def revenue_prompts(fy, date, dept, prompts):
         Prompt(
             id=prompts[4]["id"],
             type="ELEMENTS",
-            answers= [
-                {"id": f"h{fy};{prompts[4]['source']['id']}", "name": f"{fy}"}
-            ],
+            answers=[{"id": f"h{fy};{prompts[4]['source']['id']}", "name": f"{fy}"}],
         ),
     ]
 
